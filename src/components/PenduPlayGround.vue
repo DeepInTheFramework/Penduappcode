@@ -3,11 +3,17 @@
     <div v-if="!gameEnded" class="game">
     <h1>{{ wordHided.join(' ') }}</h1>
     <h2>Appuyez sur une lettre</h2>
+    <div class="life">
+      <h3 v-if="lifeNumbers > 0">Vous avez encore {{ lifeNumbers }} coups à jouer.</h3>
+    </div>
     </div>
     <div v-else class="gameEnd">
-      <h2>Félicitations pour votre victoire. </h2>
+      <h2 v-if="winner">Félicitations pour votre victoire ! </h2>
+      <h2 v-else>Dommage pour cette défaite ! </h2>
       <button @click="resetGame()">Recommencer</button>
     </div>
+
+
   </template>
 
 <script>
@@ -20,7 +26,9 @@ export default {
     const wordHided = ref([]);
     const originalWord = ref('');
     const lettersFound = reactive([]);
+    let lifeNumbers = ref(0)
     let gameEnded = ref(false);
+    let winner=ref(false);
 
     
     const hideWord = () => {
@@ -41,12 +49,16 @@ export default {
     };
 
     const handleButtonPressed = (event) => {
+      if(lifeNumbers.value>0)
+    {
       const letter = event.key.toLowerCase();
       console.log('La lettre : ', letter, 'a été frappée');
       if (/^[a-z]$/.test(letter) && !lettersFound.includes(letter) && originalWord.value.includes(letter)) {
         console.log('La lettre : ', letter, 'va être ajoutée');
         lettersFound.push(letter);
       }
+      decrementLifesNumbers()
+    }
     };
 
     const checkGameStatus = () => {
@@ -55,10 +67,12 @@ export default {
         if (!wordHided.value. includes('_'))
         {
           console.log("Wordhided ne contient plus _ ")
+          winner.value=true
           gameEnded.value=true;
         }
         else {
           console.log("Wordhided contient toujours _ ")
+          winner.value=false;
           gameEnded.value=false;
         }
     };
@@ -68,12 +82,28 @@ export default {
       lettersFound.splice(0, lettersFound.length);
       hideWord();
       gameEnded.value = false;
+      giveLifesNumbers()
     };
+
+    const giveLifesNumbers = () => {
+      console.log('On initialize lifesNumber')
+      lifeNumbers.value =  4 + (Math.ceil(originalWord.value.length/3))
+      console.log('Life number est :', lifeNumbers.value)
+    }
+
+    const decrementLifesNumbers = () => {
+      lifeNumbers.value -=1;
+
+      if(lifeNumbers.value<=0) {
+        gameEnded.value=true;
+      }
+    }
 
 
   onMounted(() => {
       originalWord.value = getRandomWord();
       hideWord();
+      giveLifesNumbers()
       window.addEventListener('keyup', handleButtonPressed);
     });
   
@@ -96,7 +126,11 @@ export default {
       wordHided,
       lettersFound,
       gameEnded,
-      resetGame
+      resetGame,
+      giveLifesNumbers,
+      lifeNumbers,
+      decrementLifesNumbers,
+      winner
     };
 
   }

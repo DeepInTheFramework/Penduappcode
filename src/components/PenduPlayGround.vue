@@ -2,34 +2,73 @@
 <template>
     <div class="hello">
       <h1>{{ wordHided.join(' ') }}</h1>
+      <h2>Appuyez sur une lettre</h2>
+
     </div>
   </template>
 
 <script>
 import { getRandomWord } from '../ai'; // Importer la fonction getRandomWord depuis ai.js
+import { ref, reactive, watch, onMounted, onBeforeUnmount } from 'vue';
 
 export default {
   name: 'PenduPlayGround',
-  data() {
-      return {
-      wordHided : [],
-      originalWord : ''    
+  setup() {
+    const wordHided = ref([]);
+    const originalWord = ref('');
+    const lettersFound = reactive([]);
+
+    
+    const hideWord = () => {
+      wordHided.value = [];
+      for (let i = 0; i < originalWord.value.length; i++) {
+        wordHided.value.push('_');
+      }
     };
-  },
 
-  created () {
-      this.originalWord = getRandomWord();
-      this.hideWord();
-    },
-
-  methods: {
-    hideWord() {
-        this.wordHided = [];
-        for(let i=0; i< this.originalWord.length; i++)
-        {
-          this.wordHided.push("_")
+    const unhideLetter = () => {
+      console.log('Unhide letter à été lancé');
+      for (let i = 0; i < originalWord.value.length; i++) {
+        const letter = originalWord.value[i];
+        if (lettersFound.includes(letter)) {
+          wordHided.value[i] = letter;
         }
-    }
+      }
+    };
+
+    const handleButtonPressed = (event) => {
+      const letter = event.key.toLowerCase();
+      console.log('La lettre : ', letter, 'a été frappée');
+      if (/^[a-z]$/.test(letter) && !lettersFound.includes(letter) && originalWord.value.includes(letter)) {
+        console.log('La lettre : ', letter, 'va être ajoutée');
+        lettersFound.push(letter);
+      }
+    };
+
+  onMounted(() => {
+      originalWord.value = getRandomWord();
+      hideWord();
+      window.addEventListener('keyup', handleButtonPressed);
+    });
+  
+    onBeforeUnmount(() => {
+      window.removeEventListener('keyup', handleButtonPressed);
+    });
+
+  watch(
+      lettersFound,
+      () => {
+        console.log('Watcher lettersFound déclenché');
+        unhideLetter();
+      },
+      { deep: true }
+    );
+
+    return {
+      wordHided,
+      lettersFound,
+    };
+
   }
 }
 </script>

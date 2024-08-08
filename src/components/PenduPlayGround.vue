@@ -5,6 +5,8 @@
     <h2>Appuyez sur une lettre</h2>
     <div class="life">
       <h3 v-if="lifeNumbers > 0">Vous avez encore {{ lifeNumbers }} coups à jouer.</h3>
+      <h3 v-if="timer" :class="timer > 15 ? 'timer' : 'timer red'"> 
+        {{ timer }} </h3>
     </div>
 
     <div v-if="isMobile" class="mobileContainer">
@@ -36,7 +38,10 @@ export default {
     let lifeNumbers = ref(0)
     let gameEnded = ref(false);
     let winner=ref(false);
+    let timer = ref(30)
     const alphabet = 'azertyuiopqsdfghjklmwxcvbn'.split('');
+    const successSound = new Audio(require('@/assets/Success.mp3'));
+
 
     
     const hideWord = () => {
@@ -63,9 +68,11 @@ export default {
       console.log('La lettre : ', letter, 'a été frappée');
       if (/^[a-z]$/.test(letter) && !lettersFound.includes(letter) && originalWord.value.includes(letter)) {
         console.log('La lettre : ', letter, 'va être ajoutée');
+        successSound.play()
         lettersFound.push(letter);
       }
-      decrementLifesNumbers()
+      else {decrementLifesNumbers()
+      }
     }
     };
 
@@ -74,9 +81,10 @@ export default {
       console.log('La lettre : ', letter, 'a été frappée');
       if (/^[a-z]$/.test(letter) && !lettersFound.includes(letter) && originalWord.value.includes(letter)) {
         console.log('La lettre : ', letter, 'va être ajoutée');
+        successSound.play()
         lettersFound.push(letter);
       }
-      decrementLifesNumbers()
+      else {decrementLifesNumbers()}
     }
     }
 
@@ -103,6 +111,7 @@ export default {
       hideWord();
       gameEnded.value = false;
       giveLifesNumbers()
+      timer.value=30;
     };
 
     const giveLifesNumbers = () => {
@@ -123,11 +132,18 @@ export default {
       return /Mobi|Android/i.test(navigator.userAgent);
     });
 
+    const decrementTimer = () => {
+      setInterval(() => {
+        timer.value-=1;
+      },1000)
+    }
+
 
   onMounted(() => {
       originalWord.value = getRandomWord();
       hideWord();
       giveLifesNumbers()
+      decrementTimer()
       window.addEventListener('keyup', handleButtonPressed);
     });
   
@@ -144,7 +160,18 @@ export default {
         gameEnded;
       },
       { deep: true }
+
     );
+
+    watch (
+      timer,
+      () => {
+        if (timer.value <1)
+      {
+        timer.value=30;
+      }
+    }
+    )
 
     return {
       wordHided,
@@ -157,7 +184,9 @@ export default {
       winner,
       isMobile,
       alphabet,
-      handleMobileButtonClick
+      handleMobileButtonClick,
+      timer,
+      decrementTimer
     };
 
   }
@@ -188,6 +217,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.timer {
+  font-size: 30px;
+}
+
+.red {
+  color: brown;
 }
 
   @media screen and (max-width:1080px) {

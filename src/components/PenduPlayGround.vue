@@ -36,7 +36,7 @@ export default {
     let lifeNumbers = ref(0)
     let gameEnded = ref(false);
     let winner=ref(false);
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const alphabet = 'azertyuiopqsdfghjklmwxcvbn'.split('');
 
     
     const hideWord = () => {
@@ -153,13 +153,25 @@ export default {
 
 <style>
 .mobileContainer {
-  width: 80vw;
-  padding-left: 10vw;
-  padding-right: 10vw;      
+  border-top: 1px solid bisque;
+  margin-top: 10vh;
+  padding-top: 20px;
+  min-height: 150px;
+  width: 100vw;
+  padding-left: 2vw;
+  padding-right: 2vw;      
   display: flex;
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 3px;
+  background-color: aliceblue;
+}
+
+.mobileButton {
+  width: 10vw;
+  height: 8vw;
+  font-size: 14px;
 }
 
 </style>

@@ -6,6 +6,13 @@
     <div class="life">
       <h3 v-if="lifeNumbers > 0">Vous avez encore {{ lifeNumbers }} coups à jouer.</h3>
     </div>
+
+    <div v-if="isMobile" class="mobileContainer">
+      <div v-for="letter in alphabet" :key=letter class='mobileKeyboard'>
+        <button class="mobileButton">{{letter}}</button>
+      </div>
+    </div>
+
     </div>
     <div v-else class="gameEnd">
       <h2 v-if="winner">Félicitations pour votre victoire ! </h2>
@@ -18,7 +25,7 @@
 
 <script>
 import { getRandomWord } from '../ai';
-import { ref, reactive, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, reactive, watch, onMounted, onBeforeUnmount, computed } from 'vue';
 
 export default {
   name: 'PenduPlayGround',
@@ -29,6 +36,7 @@ export default {
     let lifeNumbers = ref(0)
     let gameEnded = ref(false);
     let winner=ref(false);
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
     
     const hideWord = () => {
@@ -89,7 +97,7 @@ export default {
       console.log('On initialize lifesNumber')
       lifeNumbers.value =  4 + (Math.ceil(originalWord.value.length/3))
       console.log('Life number est :', lifeNumbers.value)
-    }
+    };
 
     const decrementLifesNumbers = () => {
       lifeNumbers.value -=1;
@@ -97,7 +105,11 @@ export default {
       if(lifeNumbers.value<=0) {
         gameEnded.value=true;
       }
-    }
+    };
+
+    const isMobile = computed(() => {
+      return /Mobi|Android/i.test(navigator.userAgent);
+    });
 
 
   onMounted(() => {
@@ -130,9 +142,24 @@ export default {
       giveLifesNumbers,
       lifeNumbers,
       decrementLifesNumbers,
-      winner
+      winner,
+      isMobile,
+      alphabet,
     };
 
   }
 }
 </script>
+
+<style>
+.mobileContainer {
+  width: 80vw;
+  padding-left: 10vw;
+  padding-right: 10vw;      
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+</style>

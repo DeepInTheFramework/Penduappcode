@@ -9,7 +9,7 @@
 
     <div v-if="isMobile" class="mobileContainer">
       <div v-for="letter in alphabet" :key=letter class='mobileKeyboard'>
-        <button class="mobileButton">{{letter}}</button>
+        <button class="mobileButton" @click="handleMobileButtonClick(letter)">{{letter}}</button>
       </div>
     </div>
 
@@ -17,7 +17,7 @@
     <div v-else class="gameEnd">
       <h2 v-if="winner">Félicitations pour votre victoire ! </h2>
       <h2 v-else>Dommage pour cette défaite ! </h2>
-      <button @click="resetGame()">Recommencer</button>
+      <button class="buttonReset" @click="resetGame()">Recommencer</button>
     </div>
 
 
@@ -68,6 +68,18 @@ export default {
       decrementLifesNumbers()
     }
     };
+
+    const handleMobileButtonClick = (letter) => {
+      {
+      console.log('La lettre : ', letter, 'a été frappée');
+      if (/^[a-z]$/.test(letter) && !lettersFound.includes(letter) && originalWord.value.includes(letter)) {
+        console.log('La lettre : ', letter, 'va être ajoutée');
+        lettersFound.push(letter);
+      }
+      decrementLifesNumbers()
+    }
+    }
+
 
     const checkGameStatus = () => {
       console.log("On check gamestatus")
@@ -145,6 +157,7 @@ export default {
       winner,
       isMobile,
       alphabet,
+      handleMobileButtonClick
     };
 
   }
@@ -172,6 +185,17 @@ export default {
   width: 10vw;
   height: 8vw;
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  @media screen and (max-width:1080px) {
+    .buttonReset {
+    font-size: 16px;
+    width: 50vw;
+    height: 50px;
+  }
 }
 
 </style>

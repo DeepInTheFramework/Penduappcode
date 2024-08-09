@@ -1,4 +1,4 @@
-const words = [
+const wordsFantasy = [
   'alchimie', 'arcadie', 'barde', 'bestiaire', 'chevalerie',
   'codex', 'elegie', 'ephemere', 'epopee', 'feerie',
   'fable', 'fresque', 'gargouille', 'gothique', 'lugubre',
@@ -31,11 +31,42 @@ const words = [
   'destin', 'sorcellerie', 'fantasmagorie', 'mythique'
 ];
 
+const wordsVideoGame = [
+  'aventure', 'bataille', 'boss', 'console', 'coop',
+  'donjon', 'ecran', 'epee', 'exploration', 'fantasy',
+  'force', 'gain', 'gamer', 'guerrier', 'heros',
+  'immersion', 'interface', 'jeu', 'joystick', 'magie',
+  'mission', 'mode', 'monde', 'monstre', 'niveau',
+  'online', 'partie', 'personnage', 'plateforme', 'pouvoir',
+  'quete', 'realite', 'recompense', 'role', 'RPG',
+  'scenario', 'score', 'sortilege', 'strategie',
+  'survie', 'team', 'univers', 'update', 'victoire',
+  'vie', 'virtuel', 'wifi', 'avatar', 'combat', 
+  'controleur', 'costume', 'creature', 'defi',
+  'emote', 'ennemi', 'escouade', 'experience', 'franchise',
+  'guilde', 'instance', 'inventaire', 'joueur', 'ligue',
+  'multijoueur', 'niveau', 'nuit', 'pouvoir',
+  'quete', 'realite', 'reflexe', 'registre', 'run',
+  'secret', 'serveur', 'skin', 'spawn', 'speedrun',
+  'tactique', 'terrain', 'tournoi', 'trophée', 'usine',
+  'valeur', 'vehicule', 'vie', 'virus', 'vitesse', 'zone'
+];
 
+
+
+  function getWordList (listType) {
+      if (listType='roman')
+      {
+        return wordsFantasy
+      }
+      else {
+        return wordsVideoGame
+      }
+  }
   
-  function getRandomWord() {
+  function getRandomWord(wordLibrary) {
     const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex];
+    return wordLibrary[randomIndex];
   }
   
   export { getRandomWord };

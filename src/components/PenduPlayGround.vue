@@ -169,6 +169,7 @@ export default {
         if (timer.value <1)
       {
         timer.value=30;
+        decrementLifesNumbers()
       }
     }
     )

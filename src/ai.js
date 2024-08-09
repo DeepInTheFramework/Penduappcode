@@ -55,7 +55,7 @@ const wordsVideoGame = [
 
 
   function getWordList (listType) {
-      if (listType='roman')
+      if (listType==='roman')
       {
         return wordsFantasy
       }
@@ -65,9 +65,9 @@ const wordsVideoGame = [
   }
   
   function getRandomWord(wordLibrary) {
-    const randomIndex = Math.floor(Math.random() * words.length);
+    const randomIndex = Math.floor(Math.random() * wordLibrary.length);
     return wordLibrary[randomIndex];
   }
   
-  export { getRandomWord };
+  export { getRandomWord, getWordList };
   

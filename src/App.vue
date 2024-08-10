@@ -5,10 +5,11 @@
   </div>
 
   <div v-if="onCategoryScreen">
+    <CategoryChoice :setCategory="setCategory" />
   </div>
 
   <div v-if="onPenduPlayGround">
-    <PenduPlayGround />
+    <PenduPlayGround :difficulty="difficulty" :category="category"/>
   </div>
 
 </template>
@@ -17,12 +18,14 @@
 import PenduPlayGround from './components/PenduPlayGround.vue'
 import DifficultyScreen from './components/DifficultyScreen.vue';
 import { ref} from 'vue';
+import CategoryChoice from './components/CategoryChoice.vue';
 
 export default {
   name: 'App',
 
   components: {
     DifficultyScreen,
+    CategoryChoice,
     PenduPlayGround,
   },
 
@@ -39,13 +42,20 @@ export default {
         onCategoryScreen.value=true;
     }
 
+    const setCategory = (newCategory) => {
+        category.value = newCategory;
+        onPenduPlayGround.value=true;
+        onCategoryScreen.value=false;
+    }
+
     return {
        onDifficultyScreen,
      onCategoryScreen,
      onPenduPlayGround, 
      difficulty,
      category,
-     setDifficulty
+     setDifficulty,
+     setCategory
     }
   }
 

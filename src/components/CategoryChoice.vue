@@ -1,22 +1,32 @@
 <template>
-    <h1>Veuillez sélectionner votre catégorie de jeu : </h1>
-    <div class="difficultyContainer">
-    <button @click="handleButtonClicked('easy')">Facile</button>
-    <button @click="handleButtonClicked('medium')">Moyen</button>
-    <button @click="handleButtonClicked('hard')">Difficile</button>
+    <h1>Veuillez sélectionner votre de mots : </h1>
+    <div class="categoryContainer">
+    <button @click="handleButtonClicked('Litterature')">Littérature</button>
+    <button @click="handleButtonClicked('medium')">Manga</button>
+    <button @click="handleButtonClicked('hard')">Jeux-Vidéos</button>
     </div>
 </template>
 
 <script>
 export default {
        name : 'CategoryChoice',
-       setup() {
-        const handleButtonClicked = (category) => {
-         return category;
-        }
+       props :{
+            setCategory: {
+            type: Function,
+            required: true
+            }
+       },
 
-        return handleButtonClicked
-       }
+        setup(props) {
+            const handleButtonClicked = (category) => {
+            props.setCategory(category)
+            return category;
+            }
+
+            return {
+                handleButtonClicked
+            }
+        }
     
     }
 

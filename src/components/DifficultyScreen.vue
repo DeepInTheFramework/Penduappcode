@@ -1,9 +1,9 @@
 <template>
     <h1>Veuillez sélectionner votre niveau de difficulté : </h1>
     <div class="difficultyContainer">
-    <button @click="handleButtonClicked('easy')">Facile</button>
-    <button @click="handleButtonClicked('medium')">Moyen</button>
-    <button @click="handleButtonClicked('hard')">Difficile</button>
+    <button @click="handleButtonClicked('Easy')">Facile</button>
+    <button >Moyen</button>
+    <button>Difficile</button>
     </div>
 </template>
 
@@ -11,7 +11,7 @@
 export default {
        name : 'DifficultyScreen',
        props :{
-                setDifficulty: {
+            setDifficulty: {
             type: Function,
             required: true
             }
@@ -34,7 +34,7 @@ export default {
 
 <style>
 
-.difficultyContainer {
+.categoryContainer {
     display: flex;
     flex-direction: column;
     gap: 5px;

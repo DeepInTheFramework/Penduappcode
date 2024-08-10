@@ -21,8 +21,6 @@
       <h2 v-else>Dommage pour cette défaite ! </h2>
       <button class="buttonReset" @click="resetGame()">Recommencer</button>
     </div>
-
-
   </template>
 
 <script>
@@ -31,7 +29,20 @@ import { ref, reactive, watch, onMounted, onBeforeUnmount, computed } from 'vue'
 
 export default {
   name: 'PenduPlayGround',
-  setup() {
+  props: {
+    category: {
+      type: String,
+      required: true
+    },
+    difficulty: {
+      type: String,
+      required: true
+    }
+  },
+
+  setup(props) {
+
+    
     const wordHided = ref([]);
     const originalWord = ref('');
     const lettersFound = reactive([]);
@@ -41,6 +52,7 @@ export default {
     let timer = ref(30)
     const alphabet = 'azertyuiopqsdfghjklmwxcvbn'.split('');
     const successSound = new Audio(require('@/assets/Success.mp3'));
+
 
 
     
@@ -106,7 +118,7 @@ export default {
     };
 
     const resetGame = () => {
-      originalWord.value = getRandomWord();
+      originalWord.value = getRandomWord(props.category, props.difficulty);
       lettersFound.splice(0, lettersFound.length);
       hideWord();
       gameEnded.value = false;
@@ -140,7 +152,7 @@ export default {
 
 
   onMounted(() => {
-      originalWord.value = getRandomWord();
+      originalWord.value = getRandomWord(props.category, props.difficulty);
       hideWord();
       giveLifesNumbers()
       decrementTimer()

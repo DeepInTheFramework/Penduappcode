@@ -1,34 +1,44 @@
-const wordsFantasy = [
-  'alchimie', 'arcadie', 'barde', 'bestiaire', 'chevalerie',
-  'codex', 'elegie', 'ephemere', 'epopee', 'feerie',
+const wordsLitteratureEasy = [
+  'alchimie', 'bestiaire', 'chevalerie',
+  'codex', 'epopee', 'feerie',
   'fable', 'fresque', 'gargouille', 'gothique', 'lugubre',
-  'heroisme', 'illusion', 'intrigue', 'labyrinthe', 'legende',
-  'lyrique', 'manuscrit', 'meandre', 'memoire', 'mystere',
-  'narrateur', 'ode', 'oracle', 'parchemin', 'poesie',
-  'prophetie', 'quete', 'reverence', 'rhapsodie', 'romance',
-  'saga', 'songe', 'sortilege', 'tragedie', 'troubadour',
-  'utopie', 'valkyrie', 'velin', 'volupte', 'chronique',
-  'conte', 'mythologie', 'parabole', 'recit', 'aventure',
-  'magicien', 'sorcellerie', 'enchantement', 'druide', 'chimere',
+  'heroisme', 'illusion', 'labyrinthe', 'legende',
+  'manuscrit', 'memoire', 'mystere',
+  'oracle', 'parchemin', 'poesie',
+  'prophetie', 'quete', 'romance',
+  'songe', 'sortilege', 'tragedie',
+  'utopie','chronique',
+  'conte', 'mythologie', 'recit', 'aventure',
+  'magicien', 'sorcellerie', 'enchantement', 'druide', 
   'dragon', 'elfe', 'nymphe', 'licorne', 'sortilege',
-  'cavalier', 'tourmente', 'cavalerie', 'royaume', 'sorcier',
+  'cavalier', 'tourmente', 'royaume', 'sorcier',
   'trone', 'magie', 'empereur', 'emeraude', 'royaume',
   'guerrier', 'epique', 'prelude', 'chanson', 'hymne',
-  'prophete', 'incantation', 'griot', 'serenade', 'manuscrit',
-  'chateau', 'palais', 'forteresse', 'immortel', 'malediction',
-  'sortilege', 'oracle', 'potion', 'elixir', 'metamorphose',
-  'arcanes', 'runes', 'conteur', 'heros', 'heroine',
-  'destin', 'epopee', 'equinoxe', 'solstice', 'neant',
-  'abime', 'tempete', 'etoile', 'comete', 'nebuleuse',
-  'cosmique', 'elementaire', 'sorcellerie', 'metamorphose', 'hydromel',
+  'prophete', 'incantation', 'serenade', 'manuscrit',
+  'chateau', 'palais',  'immortel', 'malediction',
+  'sortilege', 'potion', 'elixir', 'metamorphose',
+  'runes', 'conteur', 'heros', 
+  'destin', 'epopee', 'neant',
+  'tempete', 'etoile', 'comete', 
+  'cosmique', 'elementaire', 'sorcellerie', 'metamorphose', 
   'eloge', 'passion', 'catharsis', 'folie', 'complot',
-  'enchanteresse', 'ombre', 'lueur', 'sepulcre', 'mausolee',
-  'voyage', 'legat', 'relicat', 'carrousel', 'zodiaque',
-  'pelerin', 'cavalcade', 'caravane', 'orbite', 'galaxie',
-  'univers', 'destinee', 'nuit', 'diurne', 'crepuscule',
+  'ombre', 'lueur','voyage',
+  'pelerin', 'orbite', 'galaxie',
+  'univers', 'destinee', 'nuit', 'crepuscule',
   'aube', 'aventure', 'expedition', 'croisade', 'mystique',
-  'enigme', 'illusion', 'reverie', 'chimere', 'quete',
-  'destin', 'sorcellerie', 'fantasmagorie', 'mythique'
+  'enigme', 'illusion', 'quete',
+  'destin', 'sorcellerie','mythique'
+];
+
+const wordsLiterratureMedium = [
+  'arcadie', 'barde', 'elegie', 'ephemere', 'intrigue',
+  'lyrique', 'meandre', 'narrateur', 'ode', 'reverence',
+  'rhapsodie', 'saga', 'troubadour', 'valkyrie', 'velin',
+  'volupte', 'parabole', 'chimere', 'cavalerie', 'forteresse',
+  'arcanes', 'heroine', 'equinoxe', 'solstice', 'abime',
+  'nebuleuse', 'hydromel', 'enchanteresse', 'sepulcre', 'mausolee',
+  'legat', 'relicat', 'carrousel', 'zodiaque', 'cavalcade',
+  'caravane', 'diurne', 'reverie', 'fantasmagorie'
 ];
 
 const wordsVideoGame = [
@@ -52,22 +62,20 @@ const wordsVideoGame = [
   'valeur', 'vehicule', 'vie', 'virus', 'vitesse', 'zone'
 ];
 
+function getRandomWord(category, difficulty) {
+  let wordLibrary;
+  console.log(category, difficulty)
+  if (category == 'Litterature' && difficulty == 'Easy') {
+    console.log("Litterature Easy")
+    wordLibrary = wordsLitteratureEasy;
+  } else if (category === 'Litterature' && difficulty === 'Medium') {
+    wordLibrary = wordsLiterratureMedium;
+  } else if (category === 'VideoGame') {
+    wordLibrary = wordsVideoGame;
+  } 
+  
+  const randomIndex = Math.floor(Math.random() * wordLibrary.length);
+  return wordLibrary[randomIndex];
+}
 
-
-  function getWordList (listType) {
-      if (listType==='roman')
-      {
-        return wordsFantasy
-      }
-      else {
-        return wordsVideoGame
-      }
-  }
-  
-  function getRandomWord(wordLibrary) {
-    const randomIndex = Math.floor(Math.random() * wordLibrary.length);
-    return wordLibrary[randomIndex];
-  }
-  
-  export { getRandomWord, getWordList };
-  
+export { getRandomWord };
